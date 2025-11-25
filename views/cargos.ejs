@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <title>Cargos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <style>
+    :root {
+      --color-turquesa: #17B6AB;
+      --color-morado: #5B2C82;
+      --color-verde: #A8CE50;
+      --color-rosa: #D63384;
+      --color-turquesa-claro: #E8F8F7;
+      --color-morado-claro: #F3EEF8;
+    }
+
+    /* Tamaño base un poco más pequeño */
+    body {
+      padding: 0;
+      font-size: 0.9rem;
+      background: linear-gradient(135deg, var(--color-morado-claro) 0%, var(--color-turquesa-claro) 100%);
+    }
+
+    /* Navbar personalizada */
+    .navbar-custom {
+      background: linear-gradient(90deg, var(--color-morado) 0%, var(--color-turquesa) 100%);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-text {
+      color: white !important;
+    }
+    
+    .navbar-custom .nav-link:hover {
+      color: var(--color-verde) !important;
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
+
+    .btn-logout {
+      background-color: var(--color-rosa);
+      border-color: var(--color-rosa);
+      color: white;
+    }
+    .btn-logout:hover {
+      background-color: #B52A6C;
+      border-color: #B52A6C;
+      color: white;
+    }
+
+    /* Contenedor más ancho y centrado */
+    .page-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header local */
+    header.page-header {
+      margin-bottom: 1rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-left: 5px solid var(--color-morado);
+    }
+    header.page-header h1 {
+      font-size: 1.15rem;
+      color: var(--color-morado);
+    }
+    header.page-header p {
+      font-size: 0.82rem;
+    }
+
+    /* Botones compactos reutilizables */
+    .btn-compact {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+
+    .btn-filter {
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .btn-turquesa {
+      background-color: var(--color-turquesa);
+      border-color: var(--color-turquesa);
+      color: white;
+    }
+    .btn-turquesa:hover {
+      background-color: #139187;
+      border-color: #139187;
+      color: white;
+    }
+    
+    .btn-morado {
+      background-color: var(--color-morado);
+      border-color: var(--color-morado);
+      color: white;
+    }
+    .btn-morado:hover {
+      background-color: #472167;
+      border-color: #472167;
+      color: white;
+    }
+    
+    .btn-rosa {
+      background-color: var(--color-rosa);
+      border-color: var(--color-rosa);
+      color: white;
+    }
+    .btn-rosa:hover {
+      background-color: #B52A6C;
+      border-color: #B52A6C;
+      color: white;
+    }
+
+    .btn-amarillo {
+      background-color: #ffc107;
+      border-color: #ffc107;
+      color: #000;
+    }
+    .btn-amarillo:hover {
+      background-color: #e0a800;
+      border-color: #e0a800;
+      color: #000;
+    }
+
+    /* Filtros compactos */
+    .toolbar .form-label {
+      font-size: 0.8rem;
+      margin-bottom: 0.15rem;
+      color: var(--color-morado);
+      font-weight: 600;
+    }
+    .toolbar .form-control,
+    .toolbar .form-select {
+      min-width: 160px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+      height: calc(1.5em + 0.5rem + 2px);
+      border-color: var(--color-turquesa);
+    }
+    .toolbar .form-control:focus,
+    .toolbar .form-select:focus {
+      border-color: var(--color-morado);
+      box-shadow: 0 0 0 0.2rem rgba(91, 44, 130, 0.15);
+    }
+
+    /* Tabla */
+    .table thead th {
+      white-space: nowrap;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      background-color: #f8f9fa;
+      color: var(--color-morado);
+      border: none;
+    }
+
+    .table {
+      --bs-table-cell-padding-y: 0.4rem;
+      --bs-table-cell-padding-x: 0.5rem;
+    }
+
+    .table td {
+      vertical-align: middle;
+      font-size: 0.85rem;
+    }
+
+    /* Card cuadrada y fina para la tabla */
+    .table-card {
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border: none;
+      overflow: hidden;
+      background: white;
+    }
+
+    /* Efecto sutil al pasar el mouse */
+    .table tbody tr {
+      border-bottom: 1px solid #f0f0f0;
+      transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+      background-color: var(--color-turquesa-claro);
+      transform: scale(1.01);
+    }
+
+    /* Acciones centradas */
+    .col-acciones {
+      text-align: center;
+      white-space: nowrap;
+      width: 180px;
+    }
+    .col-acciones .btn {
+      margin-bottom: 0.1rem;
+    }
+
+    /* Modal personalizado */
+    .modal-header {
+      background: linear-gradient(90deg, var(--color-morado) 0%, var(--color-turquesa) 100%);
+      color: white;
+    }
+    .modal-header .btn-close {
+      filter: brightness(0) invert(1);
+    }
+
+    .modal-title {
+      color: white;
+    }
+
+    .modal-body .form-label {
+      color: var(--color-morado);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .modal-body .form-control,
+    .modal-body .form-select {
+      border-color: var(--color-turquesa);
+    }
+
+    .modal-body .form-control:focus,
+    .modal-body .form-select:focus {
+      border-color: var(--color-morado);
+      box-shadow: 0 0 0 0.2rem rgba(91, 44, 130, 0.15);
+    }
+
+    /* Cards de filtro */
+    .card {
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      background: white;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(90deg, var(--color-turquesa) 0%, var(--color-morado) 100%);
+      color: white;
+    }
+
+    /* Toasts abajo a la derecha */
+    .toast-stack {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 1080;
+    }
+
+    .toast.text-bg-primary {
+      background-color: var(--color-turquesa) !important;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- NAVBAR SUPERIOR -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+
+      <!-- Logo + Nombre -->
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img 
+          src="/img/logo-hospi.png"
+          alt="USTA"
+          style="height:40px; width:auto;" 
+          class="rounded"
+        >
+      </a>
+
+      <!-- Botón colapsable móvil -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenido navbar -->
+      <div class="collapse navbar-collapse" id="mainNavbar">
+
+        <!-- Ítems del menú -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/equipos">Equipos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ubicaciones">Ubicaciones</a></li>
+          <% if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer')) { %>
+          <li class="nav-item"><a class="nav-link" href="/responsables-custodios">Responsables</a></li>
+          <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento">Personas</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cargos">Cargos</a></li>
+          <% } %>
+          <% if (currentUser && (currentUser.role === 'admin')) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/usuarios">Usuarios</a>
+          </li>
+          <% } %>
+          <li class="nav-item"><a class="nav-link" href="/mantenimientos">Mantenimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/mi-perfil">Mi perfil</a></li>
+        </ul>
+
+        <!-- Usuario + Salir -->
+        <% if (currentUser) { %>
+          <span class="navbar-text me-3 small">
+            🧑‍💼 <strong><%= currentUser.username %></strong> | <span class="badge bg-light text-dark"><%= currentUser.role %></span>
+          </span>
+          <form method="post" action="/logout" class="d-inline m-0">
+            <button class="btn btn-logout btn-sm">Salir</button>
+          </form>
+        <% } %>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow-1">
+    <div class="container-fluid py-3 px-4">
+      <div class="page-wrapper">
+
+        <!-- Header local (título + descripción + botón nuevo) -->
+        <header class="page-header d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="h4 m-0">💼 Cargos</h1>
+            <p class="text-muted mb-0">
+              Catálogo de cargos internos y externos asociados a las personas de mantenimiento.
+            </p>
+          </div>
+
+          <% if (currentUser && currentUser.role === 'admin') { %>
+            <div>
+              <button id="btnNuevo" class="btn btn-turquesa btn-compact">
+                <i class="bi bi-plus-circle me-1"></i> Nuevo cargo
+              </button>
+            </div>
+          <% } %>
+        </header>
+
+        <!-- Filtros -->
+        <div class="card mb-3">
+          <div class="card-body toolbar">
+            <div class="row g-2 align-items-end">
+              <div class="col-sm-6 col-lg-4">
+                <label class="form-label">🔍 Buscar</label>
+                <input id="q" type="text" class="form-control" placeholder="Nombre o descripción…">
+              </div>
+              <div class="col-sm-4 col-lg-2">
+                <label class="form-label">📋 Tipo</label>
+                <select id="fTipo" class="form-select">
+                  <option value="">(Todos)</option>
+                  <option value="interno">Interno</option>
+                  <option value="externo">Externo</option>
+                </select>
+              </div>
+              <div class="col-sm-6 col-lg-3 ms-auto d-flex justify-content-end gap-2 mt-2 mt-lg-0">
+                <button id="btnLimpiar" class="btn btn-outline-secondary btn-filter">🗑️ Limpiar</button>
+                <button id="btnFiltrar" class="btn btn-morado btn-filter">Filtrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla dentro de card -->
+        <div class="card table-card">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Tipo</th>
+                  <th>Descripción</th>
+                  <th>Creado</th>
+                  <th>Actualizado</th>
+                  <th class="col-acciones">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                <tr>
+                  <td colspan="7" class="text-muted text-center py-4">Cargando…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Toasts -->
+        <div id="toastContainer" class="toast-stack"></div>
+
+        <!-- Toast bootstrap básico -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div id="mainToast" class="toast align-items-center text-bg-primary border-0" role="alert">
+            <div class="d-flex">
+              <div class="toast-body" id="toastBody">Acción realizada</div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <form id="form" class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="title">Nuevo cargo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" id="id">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Nombre *</label>
+                    <input id="nombre" class="form-control" maxlength="120" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Tipo *</label>
+                    <select id="tipo" class="form-select" required>
+                      <option value="interno">Interno</option>
+                      <option value="externo">Externo</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Descripción</label>
+                    <input id="descripcion" class="form-control" maxlength="200" placeholder="Opcional">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary btn-compact" data-bs-dismiss="modal" type="button">Cancelar</button>
+                <button class="btn btn-turquesa btn-compact" type="submit">💾 Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div><!-- /.page-wrapper -->
+    </div><!-- /.container-fluid -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto py-3 text-center small">
+    <div class="container">
+      <p class="m-0">© <%= new Date().getFullYear() %> Hospital San Rafael – Módulo de gestión de inventario y registro de mantenimientos de equipos informáticos</p>
+    </div>
+  </footer>
+
+  <script>
+  window.CURRENT_USER_ROLE = "<%- currentUser ? currentUser.role : '' %>";
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/cargos.js"></script>
+</body>
+</html>

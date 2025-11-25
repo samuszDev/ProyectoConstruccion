@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <title>Responsables / Custodios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --color-turquesa: #17B6AB;
+      --color-morado: #5B2C82;
+      --color-verde: #A8CE50;
+      --color-rosa: #D63384;
+      --color-turquesa-claro: #E8F8F7;
+      --color-morado-claro: #F3EEF8;
+    }
+
+    /* Tamaño base un poco más pequeño */
+    body {
+      padding: 0;
+      font-size: 0.9rem;
+      background: linear-gradient(135deg, var(--color-morado-claro) 0%, var(--color-turquesa-claro) 100%);
+    }
+
+    /* Navbar personalizada */
+    .navbar-custom {
+      background: linear-gradient(90deg, var(--color-morado) 0%, var(--color-turquesa) 100%);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link,
+    .navbar-custom .navbar-text {
+      color: white !important;
+    }
+    
+    .navbar-custom .nav-link:hover {
+      color: var(--color-verde) !important;
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
+
+    .btn-logout {
+      background-color: var(--color-rosa);
+      border-color: var(--color-rosa);
+      color: white;
+    }
+    .btn-logout:hover {
+      background-color: #B52A6C;
+      border-color: #B52A6C;
+      color: white;
+    }
+
+    /* Contenedor más ancho y centrado */
+    .page-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header local */
+    header.page-header {
+      margin-bottom: 1rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-left: 5px solid var(--color-verde);
+    }
+    header.page-header h1 {
+      font-size: 1.15rem;
+      color: var(--color-verde);
+    }
+    header.page-header p {
+      font-size: 0.82rem;
+    }
+
+    /* Botón compacto reutilizable */
+    .btn-compact {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+
+    /* Filtros compactos */
+    .toolbar .form-label {
+      font-size: 0.8rem;
+      margin-bottom: 0.15rem;
+      color: var(--color-morado);
+      font-weight: 600;
+    }
+    .toolbar .form-control {
+      min-width: 200px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+      height: calc(1.5em + 0.5rem + 2px);
+      border-color: var(--color-turquesa);
+    }
+    .toolbar .form-control:focus {
+      border-color: var(--color-morado);
+      box-shadow: 0 0 0 0.2rem rgba(91, 44, 130, 0.15);
+    }
+
+     /* Tabla */
+    .table thead th {
+    white-space: nowrap;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    background-color: #f8f9fa;
+    color: var(--color-morado);
+    border: none;
+    }
+
+    .table {
+      --bs-table-cell-padding-y: 0.4rem;
+      --bs-table-cell-padding-x: 0.5rem;
+    }
+
+    .table td {
+      vertical-align: middle;
+      font-size: 0.85rem;
+    }
+
+    /* Card cuadrada y fina */
+    .table-card {
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border: none;
+      overflow: hidden;
+      background: white;
+    }
+
+    /* Efecto sutil al pasar el mouse */
+    .table tbody tr {
+      border-bottom: 1px solid #f0f0f0;
+      transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+      background-color: var(--color-turquesa-claro);
+      transform: scale(1.01);
+    }
+
+    /* Acciones centradas y compactas */
+    .col-acciones {
+      text-align: center;
+      white-space: nowrap;
+      width: 160px;
+    }
+
+    .col-acciones .btn {
+      margin-bottom: 0.1rem;
+    }
+
+    /* Modal personalizado */
+    .modal-header {
+      background: linear-gradient(90deg, var(--color-morado) 0%, var(--color-turquesa) 100%);
+      color: white;
+    }
+    .modal-header .btn-close {
+      filter: brightness(0) invert(1);
+    }
+
+    .modal-title {
+      color: white;
+    }
+
+    /* Cards de filtro */
+    .card {
+      border-radius: 15px;
+      border: none;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(90deg, var(--color-turquesa) 0%, var(--color-morado) 100%);
+      color: white;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- NAVBAR SUPERIOR -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+
+      <!-- Logo + Nombre -->
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img 
+          src="/img/logo-hospi.png"
+          alt="USTA"
+          style="height:40px; width:auto;" 
+          class="rounded"
+        >
+      </a>
+
+      <!-- Botón colapsable móvil -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenido navbar -->
+      <div class="collapse navbar-collapse" id="mainNavbar">
+
+        <!-- Ítems del menú -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/equipos">Equipos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ubicaciones">Ubicaciones</a></li>
+          <% if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer')) { %>
+          <li class="nav-item"><a class="nav-link" href="/responsables-custodios">Responsables</a></li>
+          <li class="nav-item"><a class="nav-link" href="/personas-mantenimiento">Personas</a></li>
+          <li class="nav-item"><a class="nav-link" href="/cargos">Cargos</a></li>
+          <% } %>
+          <% if (currentUser && (currentUser.role === 'admin')) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/usuarios">Usuarios</a>
+          </li>
+          <% } %>
+          <li class="nav-item"><a class="nav-link" href="/mantenimientos">Mantenimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/mi-perfil">Mi perfil</a></li>
+        </ul>
+
+        <!-- Usuario + Salir -->
+        <% if (currentUser) { %>
+          <span class="navbar-text me-3 small">
+            🧑‍💼 <strong><%= currentUser.username %></strong> | <span class="badge bg-light text-dark"><%= currentUser.role %></span>
+          </span>
+          <form method="post" action="/logout" class="d-inline m-0">
+            <button class="btn btn-logout btn-sm">Salir</button>
+          </form>
+        <% } %>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow-1">
+    <div class="container-fluid py-3 px-4">
+      <div class="page-wrapper">
+
+        <!-- Header local (título + descripción + botón Nuevo) -->
+        <header class="page-header d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="h4 m-0">🔐 Responsables / Custodios</h1>
+            <p class="text-muted mb-0">
+              Áreas responsables o custodias asociadas al inventario de equipos informáticos.
+            </p>
+          </div>
+          <div>
+            <% if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer')) { %>
+              <button id="btnNuevo" class="btn btn-primary btn-compact">➕ Nueva área responsable</button>
+            <% } %>
+          </div>
+        </header>
+
+        <!-- Filtro de búsqueda -->
+        <div class="card mb-3">
+          <div class="card-body toolbar">
+            <div class="row g-2 align-items-end">
+              <div class="col-sm-8 col-md-6 col-lg-4">
+                <label class="form-label">🔍 Buscar</label>
+                <input type="text" class="form-control" id="search" placeholder="Id Área o Nombre Área...">
+              </div>
+              <div class="col-sm-4 col-md-3 col-lg-2 d-flex gap-2">
+                <button id="btnLimpiarFiltro" class="btn btn-outline-secondary btn-compact w-100">
+                  🗑️ Limpiar filtro
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla dentro de card sutil -->
+        <div class="card table-card">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Id Área</th>
+                  <th>Nombre Área</th>
+                  <th>Creado</th>
+                  <th>Actualizado</th>
+                  <% if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer')) { %>
+                  <th class="col-acciones">Acciones</th>
+                  <% } %>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                <% if (responsables && responsables.length) { %>
+                  <% responsables.forEach(r => { %>
+                    <tr>
+                      <td><%= r.id %></td>
+                      <td class="fw-semibold"><%= r.id_area %></td>
+                      <td><%= r.nombre_area %></td>
+                      <td><%= r.createdAt ? new Date(r.createdAt).toLocaleString('es-CO', { timeZone:'America/Bogota' }) : '' %></td>
+                      <td><%= r.updatedAt ? new Date(r.updatedAt).toLocaleString('es-CO', { timeZone:'America/Bogota' }) : '' %></td>
+                      <td class="col-acciones">
+                        <% if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer')) { %>
+                          <button class="btn btn-warning btn-compact me-1" 
+                                  data-act="edit" 
+                                  data-id="<%= r.id %>">Editar</button>
+                        <% } %>
+                        
+                        <% if (currentUser && currentUser.role === 'admin') { %>
+                          <button class="btn btn-danger btn-compact" 
+                                  data-act="del" 
+                                  data-id="<%= r.id %>">Eliminar</button>
+                        <% } %>
+                      </td>                      
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="<%= (currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer')) ? '6' : '5' %>" 
+                        class="text-center text-muted py-4">
+                      Sin registros
+                    </td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <form class="modal-content" id="form">
+              <div class="modal-header">
+                <h5 class="modal-title" id="title">Nueva área responsable / custodia</h5>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" id="id">
+                <div class="mb-3">
+                  <label class="form-label">Id Área</label>
+                  <input id="id_area" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Nombre Área</label>
+                  <input id="nombre_area" class="form-control" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary btn-compact" data-bs-dismiss="modal" type="button">Cancelar</button>
+                <button class="btn btn-primary btn-compact" type="submit">💾 Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+      </div><!-- /.page-wrapper -->
+    </div><!-- /.container-fluid -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto py-3 text-center small">
+    <div class="container">
+      <p class="m-0">© <%= new Date().getFullYear() %> Hospital San Rafael – Módulo de gestión de inventario y registro de mantenimientos de equipos informáticos</p>
+
+    </div>
+  </footer>
+
+  <script>
+    window.CURRENT_USER_ID = "<%- JSON.stringify(currentUser ? currentUser.id : null) %>";
+    window.CURRENT_USER_ROLE = "<%- currentUser ? currentUser.role : 'user' %>";
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const search = document.getElementById('search');
+      const btnLimpiar = document.getElementById('btnLimpiarFiltro');
+
+      if (btnLimpiar && search) {
+        btnLimpiar.addEventListener('click', () => {
+          search.value = '';
+          // Disparamos un evento input para que el JS que filtra se ejecute de nuevo
+          const ev = new Event('input', { bubbles: true });
+          search.dispatchEvent(ev);
+        });
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/responsables_custodios.js"></script>
+</body>
+</html>
