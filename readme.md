@@ -1,5 +1,7 @@
 # crear la base de datos en mysql
 CREATE DATABASE crud_orm_demo CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+# en caso de ya tener creada la base de datos tener en cuenta que nosotros agregamos un rol llamado "Officer" en ese caso hacer la siguiente consulta SQL para actualizar
+ALTER TABLE users MODIFY COLUMN role ENUM('admin', 'user', 'officer') NOT NULL DEFAULT 'user';
 
 # Instalaciones en la terminal de VSCode
 - mkdir crud-orm-js && cd crud-orm-js   (aplica en caso de no haber creado previamente la carpeta del proyecto)
@@ -212,3 +214,4 @@ CREATE DATABASE project_db_c_sw CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 npm i express-session connect-session-sequelize bcrypt
 
 7. npm install exceljs
+
